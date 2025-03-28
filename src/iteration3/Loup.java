@@ -2,18 +2,18 @@ package iteration3;
 
 public class Loup extends Acteur {
 
-    public Loup(Environnement env){
-        super(env,80);
-    }
-
     public Loup(int x, int y, Environnement env){
-        super(x,y,env,80);
+        super(x,y,10,env,80);
     }
 
-    public void agit(Environnement env){
+    public Loup(Environnement env){
+        super(10,env,80);
+    }
+
+    public void agit(){
         this.decrementerPv(1);
 
-        Acteur mouton = essaieCapturerMouton(env);
+        Acteur mouton = essaieCapturerMouton();
         if (mouton != null){
             mouton.meurt();
         }
@@ -23,12 +23,13 @@ public class Loup extends Acteur {
         if (!this.estVivant()){
             this.meurt();
         }
+        seDeplace();
     }
 
-    public Acteur essaieCapturerMouton(Environnement env){
-        for (int i = 0; i < env.getActeurs().size(); i++) {
-            if (((env.getActeurs().get(i).getX() - getX() <= 5 || env.getActeurs().get(i).getX() - getX() >= 5) && (env.getActeurs().get(i).getY() - getY() <= 5 || env.getActeurs().get(i).getY() - getY() >= 5)) && env.getActeurs().get(i) instanceof Mouton){
-                return env.getActeurs().get(i);
+    public Acteur essaieCapturerMouton(){
+        for (int i = 0; i < super.getEnv().getActeurs().size(); i++) {
+            if (((super.getEnv().getActeurs().get(i).getX() - getX() <= 5 || super.getEnv().getActeurs().get(i).getX() - getX() >= 5) && (super.getEnv().getActeurs().get(i).getY() - getY() <= 5 || super.getEnv().getActeurs().get(i).getY() - getY() >= 5)) && super.getEnv().getActeurs().get(i) instanceof Mouton){
+                return super.getEnv().getActeurs().get(i);
             }
         }
         return null;

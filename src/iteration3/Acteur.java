@@ -12,6 +12,7 @@ public abstract class Acteur {
     private static int compteur = 0;
     private String id;
     private int pv;
+    private Environnement env;
 
     public Acteur (int v, Environnement e, int pv){
         Random rand = new Random();
@@ -22,10 +23,24 @@ public abstract class Acteur {
         this.x = x;
         this.y = y;
         this.v = v;
+        this.env = e;
 
-        double ran = Math.random();
-
-
+        int ran = rand.nextInt(3);
+        if (ran == 0){
+            this.dx = 1;
+        } else if (ran == 1) {
+            this.dx = -1;
+        }else{
+            this.dx = 0;
+        }
+        ran = rand.nextInt(3);
+        if (ran == 0){
+            this.dy = 1;
+        } else if (ran == 1) {
+            this.dy = -1;
+        }else{
+            this.dy = 0;
+        }
 
         compteur++;
     }
@@ -36,6 +51,7 @@ public abstract class Acteur {
         this.id = "" + compteur;
         this.pv = pv;
         this.v = v;
+        this.env = e;
         compteur ++;
     }
 
@@ -66,7 +82,42 @@ public abstract class Acteur {
         this.pv = 0;
     }
 
-    public abstract void agit(Environnement env);
+    public void seDeplace() {
+        if (this.dx == 1 && this.dy == 0) {
+            if (this.env.dansTerrain(this.x + this.v, this.y)) {
+                this.x += this.v;
+                System.out.println("Vers la droite : " + this.x);
+            }
+        }
+        if (this.dx == 1 && this.dy == 1) {
+            if (this.env.dansTerrain(this.x + this.v, this.y + this.v)) {
+                this.x += this.v;
+                this.y += this.v;
+                System.out.println("Vers la droite en bas: " + this.x + " : " + this.y);
+            }
+        }
+        if (this.dx == 1 && this.dy == -1) {
+            if (this.env.dansTerrain(this.x + this.v, this.y - this.v)) {
+                this.x += this.v;
+                this.y -= this.v;
+                System.out.println("Vers la droite en haut: " + this.x + " : " + this.y);
+            }
+        }
+        if (this.dx == 0 && this.dy == 1) {
+            if (this.env.dansTerrain(this.x, this.y + this.v)) {
+                this.y += this.v;
+                System.out.println("Vers le bas: " + this.y);
+            }
+        }
+        if (this.dx == 0 && this.dy == -1) {
+            if (this.env.dansTerrain(this.x, this.y - this.v)) {
+                this.y -= this.v;
+                System.out.println("Vers le haut: " + this.y);
+            }
+        }
+    }
+
+    public abstract void agit();
 
     public String toString(){
         return "Acteur " + this.id + " Pv : " + this.pv;
@@ -78,5 +129,9 @@ public abstract class Acteur {
 
     public int getPv(){
         return this.pv;
+    }
+
+    public Environnement getEnv(){
+        return this.env;
     }
 }

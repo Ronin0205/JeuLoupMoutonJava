@@ -2,19 +2,28 @@ package iteration3;
 
 public class Mouton extends Acteur {
 
+    private int tourNaissance;
+
     public Mouton(Environnement env){
-        super(env,40);
+        super(5,env,40);
+        this.tourNaissance = this.getEnv().getNbTours();
     }
 
     public Mouton(int x, int y, Environnement env){
-        super(x,y,env,40);
+        super(x,y,5,env,40);
+        this.tourNaissance = this.getEnv().getNbTours();
     }
 
-    public void agit(Environnement env){
+    public void agit(){
         this.decrementerPv(1);
         if (!this.estVivant()){
             this.meurt();
         }
+
+        if (this.getEnv().getNbTours() % 2 == 0){
+            seDeplace();
+        }
+
     }
 
     public String toString(){

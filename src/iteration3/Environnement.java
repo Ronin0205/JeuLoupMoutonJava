@@ -48,7 +48,7 @@ public class Environnement {
 
     public void unTour(){
         for (int i = acteurs.size()-1; i >= 0; i--) {
-            acteurs.get(i).agit(this);
+            acteurs.get(i).agit();
             if (!acteurs.get(i).estVivant()){
                 acteurs.remove(acteurs.get(i));
             }
